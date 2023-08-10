@@ -1,0 +1,29 @@
+{
+  "name": "websocket_cypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cypress open": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/assa167/websocket_cypress.git"
+  },
+  "author": "danil_assa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/assa167/websocket_cypress/issues"
+  },
+  "homepage": "https://github.com/assa167/websocket_cypress#readme",
+  "devDependencies": {
+    "cypress": "^12.17.3",
+    "cypress-real-events": "^1.10.0",
+    "cypress-wait-until": "^2.0.1"
+  },
+  "dependencies": {
+    "crypto-js": "^4.1.1",
+    "highland": "^2.13.5",
+    "prettier": "^3.0.1"
+  }
+}
