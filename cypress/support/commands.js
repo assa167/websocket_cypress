@@ -2,6 +2,7 @@ import './admin-part';
 import sha256 from "crypto-js/hmac-sha256";
 import cloneDeep from "lodash/cloneDeep";
 
+
 Cypress.Commands.add('initializeWebSocket', (url) => {
   const socket = new WebSocket(url);
 
@@ -28,6 +29,7 @@ Cypress.Commands.add('socketRequest', (socket, message) => {
 });
 
 import { addStreamCommands } from '@lensesio/cypress-websocket-testing';
+import qs from 'qs';
 
 addStreamCommands();
 
@@ -66,10 +68,9 @@ Cypress.Commands.add('createExchangeGWSession', ({ onMessageReceived, apiKeyData
               closeConnection
             });
 
-            if (message.q === "qs.exchangeGW.createSession && message.sig" === 1) {
+            if (message.q === "exchange.market/createSession" && message.sig === 1) {
               resolve({ sendMessage, closeConnection });
             }
-            reject("Error request");
           },
           error: (error) => {
             console.error('Exchange GW error message', error);
@@ -83,7 +84,7 @@ Cypress.Commands.add('createExchangeGWSession', ({ onMessageReceived, apiKeyData
         const secret = apiKeyData.secret;
         const timestamp = String(Date.now());
         sendMessage({
-          q: "qs.exchangeGW.createSession",
+          q: "exchange.market/createSession",
           d: {
             apiKey,
             timestamp,

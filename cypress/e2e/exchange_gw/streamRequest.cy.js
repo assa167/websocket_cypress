@@ -12,15 +12,7 @@ context("Websocket cy.streamRequests() Command", () => {
 
     cy.createExchangeGWSession({
       onMessageReceived: ({ currentMessage, currentQMessagesCount, allReceivedMessages }) => {
-        // Type annotation with 'any' to handle messages of any type
-        const receivedMessage: any = currentMessage;
 
-        console.log("Received message:", receivedMessage);
-
-        if (receivedMessage.q === "v1/exchange.market/executionReports") {
-          // Perform specific actions or assertions for execution reports
-          console.log("Received an execution report!");
-        }
 
         console.log("Total received messages:", allReceivedMessages);
       },

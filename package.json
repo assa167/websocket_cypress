@@ -22,8 +22,7 @@
     "@types/node": "^20.5.0",
     "cypress": "^12.17.3",
     "cypress-real-events": "^1.10.0",
-    "cypress-wait-until": "^2.0.1",
-    "typescript": "^5.1.6"
+    "cypress-wait-until": "^2.0.1"
   },
   "dependencies": {
     "crypto-js": "^4.1.1",
