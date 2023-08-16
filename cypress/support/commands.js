@@ -69,6 +69,7 @@ Cypress.Commands.add('createExchangeGWSession', ({ onMessageReceived, apiKeyData
             if (message.q === "qs.exchangeGW.createSession && message.sig" === 1) {
               resolve({ sendMessage, closeConnection });
             }
+            reject("Error request");
           },
           error: (error) => {
             console.error('Exchange GW error message', error);
