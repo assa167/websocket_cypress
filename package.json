@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "cypress open": "cypress open"
   },
@@ -17,13 +18,17 @@
   },
   "homepage": "https://github.com/assa167/websocket_cypress#readme",
   "devDependencies": {
+    "@lensesio/cypress-websocket-testing": "^1.0.1",
+    "@types/node": "^20.5.0",
     "cypress": "^12.17.3",
     "cypress-real-events": "^1.10.0",
-    "cypress-wait-until": "^2.0.1"
+    "cypress-wait-until": "^2.0.1",
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "crypto-js": "^4.1.1",
     "highland": "^2.13.5",
+    "lodash": "^4.17.21",
     "prettier": "^3.0.1"
   }
 }
