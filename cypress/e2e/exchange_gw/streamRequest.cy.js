@@ -1,4 +1,4 @@
-context("Websocket cy.streamRequests() Command", () => {
+context('Websocket cy.streamRequests() Command', () => {
   before(() => {
     cy.authenticate();
     cy.createCalendarAndSaveId();
@@ -7,73 +7,63 @@ context("Websocket cy.streamRequests() Command", () => {
     cy.createAPIKeys();
   });
 
-  it("create Session", () => {
-    const {messageBuy, messageSell, executionReports, trades} = bodyRequests();
-
+  it('test placeOrder Buy', () => {
     cy.createExchangeGWSession({
       onMessageReceived: ({ currentMessage, currentQMessagesCount, allReceivedMessages }) => {
-
-
-        console.log("Total received messages:", allReceivedMessages);
+        if(currentMessage.q === 'v1/exchange.market/placeOrder') {
+          console.log("currrent message" +currentMessage);
+        }
       },
       apiKeyData: {
         apiKey: Cypress.env('apiKey'),
-        secret: Cypress.env('secret')
+        secret: Cypress.env('secret'),
       },
-      url: 'wss://sandbox-shared.staging.exberry-uat.io'
+      url: 'wss://sandbox-shared.staging.exberry-uat.io',
     }).then(({ sendMessage, closeConnection }) => {
-      console.log(sendMessage);
-      console.log(closeConnection);
+      const instrument = Cypress.env('instrument');
+
+      sendMessage({
+        'd': {
+          'orderType': 'Limit',
+          'side': 'Buy',
+          'quantity': 76.55,
+          'price': 10.1234,
+          'instrument': instrument.symbol,
+          'timeInForce': 'GTC',
+          'mpOrderId': String(Date.now()),
+        },
+        'q': 'v1/exchange.market/placeOrder',
+      });
+
+      sendMessage({
+        'd': {
+          'orderType': 'Limit',
+          'side': 'Sell',
+          'quantity': 77.55,
+          'price': 10.1234,
+          'instrument': instrument.symbol,
+          'timeInForce': 'GTC',
+          'mpOrderId': String(Date.now()),
+        },
+        'q': 'v1/exchange.market/placeOrder',
+      });
+
+      sendMessage({
+        'd': {
+          'trackingNumber': 0,
+        },
+        'q': 'v1/exchange.market/executionReports',
+      });
+
+
+      sendMessage({
+        'd': {
+          'trackingNumber': 0,
+        },
+        'q': 'v1/exchange.market/trades',
+      });
+      closeConnection();
 
     });
   });
 });
-
-function bodyRequests() {
-  const instrument = Cypress.env('instrument');
-
-  const messageBuy = {
-    "d": {
-      "orderType": "Limit",
-      "side": "Buy",
-      "quantity": 76.55,
-      "price": 10.1234,
-      "instrument": instrument.symbol,
-      "timeInForce": "GTC",
-      "mpOrderId": String(Date.now())
-    },
-    "q": "v1/exchange.market/placeOrder",
-    "sid": 1
-  };
-
-  const messageSell = {
-    "d": {
-      "orderType": "Limit",
-      "side": "Sell",
-      "quantity": 77.55,
-      "price": 10.1234,
-      "instrument": instrument.symbol,
-      "timeInForce": "GTC",
-      "mpOrderId": String(Date.now())
-    },
-    "q": "v1/exchange.market/placeOrder",
-    "sid": 2
-  };
-
-  const executionReports = {
-    "d": {
-      "trackingNumber": 0
-    },
-    "q": "v1/exchange.market/executionReports",
-    "sid": 103
-  };
-
-  const trades = {
-    "d": {
-      "trackingNumber": 0
-    },
-    "q": "v1/exchange.market/trades",
-    "sid": 104
-  };
-  return {messageBuy, messageSell, executionReports, trades};
-}

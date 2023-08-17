@@ -1,35 +1,7 @@
 import './admin-part';
 import sha256 from "crypto-js/hmac-sha256";
 import cloneDeep from "lodash/cloneDeep";
-
-
-Cypress.Commands.add('initializeWebSocket', (url) => {
-  const socket = new WebSocket(url);
-
-  return new Promise((resolve, reject) => {
-    socket.addEventListener('open', () => {
-      resolve(socket);
-    });
-
-    socket.addEventListener('error', (event) => {
-      reject(event);
-    });
-  });
-});
-
-Cypress.Commands.add('socketRequest', (socket, message) => {
-  return new Promise((resolve) => {
-    socket.addEventListener('message', (event) => {
-      const receivedMessage = JSON.parse(event.data);
-      resolve(receivedMessage);
-    });
-
-    socket.send(JSON.stringify(message));
-  });
-});
-
 import { addStreamCommands } from '@lensesio/cypress-websocket-testing';
-import qs from 'qs';
 
 addStreamCommands();
 
@@ -40,6 +12,7 @@ Cypress.Commands.add('createExchangeGWSession', ({ onMessageReceived, apiKeyData
         const receivedEvents = {};
 
         let sid = 0;
+
         const sendMessage = (messageRequest) => {
           const formattedRequest = { sid: ++sid, ...messageRequest };
           wsSubject.next(formattedRequest);
